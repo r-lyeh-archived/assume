@@ -42,11 +42,11 @@ namespace assertpp {
         template<typename T> static std::string to_str( const T &t ) { std::stringstream ss; return ss << t ? ss.str() : "??"; }
     public:
         check( const char *const text, const char *const file, int line, bool result )
-        :   xpr( {std::string(file) + ':' + to_str(line), "", text, "" } ), ok(result) 
+        :   xpr( {std::string(file) + ':' + to_str(line), "", text, "" } ), ok(result)
         {}
         ~check() {
             if( xpr.empty() ) return;
-            operator bool(); 
+            operator bool();
             xpr[0] = xpr[0] + xpr[1];
             xpr.erase( xpr.begin() + 1 );
             if( !ok ) {
@@ -73,8 +73,8 @@ namespace assertpp {
                 return ok = ( sign == '=' ? equal : ( sign == '!' ? !equal : ok ) );
             }(), ok;
         }
-        assert$impl( <); assert$impl(<=); assert$impl( >); assert$impl(>=);
-        assert$impl(!=); assert$impl(==); assert$impl(&&); assert$impl(||);
+        assert$impl( <); assert$impl(<=); assert$impl( >); assert$impl(>=); assert$impl(!=); assert$impl(==); assert$impl(^=);
+        assert$impl(&&); assert$impl(&=); assert$impl(& ); assert$impl(||); assert$impl(|=); assert$impl(| ); assert$impl(^ );
 #       undef assert$impl
     };
 }
