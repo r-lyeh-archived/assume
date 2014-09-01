@@ -37,13 +37,14 @@
 
 namespace assertpp {
     class check {
-        int ok;
+        bool ok;
         std::deque< std::string > xpr;
         template<typename T> static std::string to_str( const T &t ) { std::stringstream ss; return ss << t ? ss.str() : "??"; }
     public:
         check( const char *const text, const char *const file, int line, bool result )
-        :   xpr( {std::string(file) + ':' + to_str(line), "", text, "" } ), ok(result)
-        {}
+        :   xpr(4), ok(result)
+        { xpr[0] = std::string(file) + ':' + to_str(line); xpr[2] = text; }
+
         ~check() {
             if( xpr.empty() ) return;
             operator bool();
@@ -67,11 +68,11 @@ namespace assertpp {
         template<typename T> check &operator OP( const T &rhs         ) { return xpr[3] += " "#OP" " + to_str(rhs), *this; } \
         template<unsigned N> check &operator OP( const char (&rhs)[N] ) { return xpr[3] += " "#OP" " + to_str(rhs), *this; }
         operator bool() {
-            return xpr.size() >= 3 && xpr[3].size() >= 6 && [&]() -> bool {
+            if( xpr.size() >= 3 && xpr[3].size() >= 6 ) {
                 char sign = xpr[3].at(xpr[3].size()/2+1);
                 bool equal = xpr[3].substr( 4 + xpr[3].size()/2 ) == xpr[3].substr( 3, xpr[3].size()/2 - 3 );
-                return ok = ( sign == '=' ? equal : ( sign == '!' ? !equal : ok ) );
-            }(), ok;
+                ok = ( sign == '=' ? equal : ( sign == '!' ? !equal : ok ) );
+            } return ok;
         }
         assert$impl( <); assert$impl(<=); assert$impl( >); assert$impl(>=); assert$impl(!=); assert$impl(==); assert$impl(^=);
         assert$impl(&&); assert$impl(&=); assert$impl(& ); assert$impl(||); assert$impl(|=); assert$impl(| ); assert$impl(^ );
