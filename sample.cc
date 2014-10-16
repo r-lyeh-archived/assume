@@ -1,4 +1,4 @@
-#include "assert++"
+#include "assert++.hpp"
 
 int main() {
     int a = 1, b = 2;

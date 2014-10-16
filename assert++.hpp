@@ -1,26 +1,17 @@
-/* Smart assert replacement for LHS/RHS values
- * Copyright (c) 2014 Mario 'rlyeh' Rodriguez
-
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
-
+/* Smart assert replacement for LHS/RHS values. BOOST licensed.
  * - rlyeh ~~ listening to Tuber / Desert Overcrowded
  */
+
+/* Public API */
+
+#include <cassert>
+
+#if !(defined(NDEBUG) || defined(_NDEBUG))
+#undef  assert
+#define assert(...) ( bool(__VA_ARGS__) ? \
+        ( assertpp::check(#__VA_ARGS__,__FILE__,__LINE__,1) < __VA_ARGS__ ) : \
+        ( assertpp::check(#__VA_ARGS__,__FILE__,__LINE__,0) < __VA_ARGS__ ) )
+#endif
 
 /* Private API */
 
@@ -39,7 +30,7 @@ namespace assertpp {
     class check {
         bool ok;
         std::deque< std::string > xpr;
-        template<typename T> static std::string to_str( const T &t ) { std::stringstream ss; return ss << t ? ss.str() : "??"; }
+        template<typename T> static std::string to_str( const T &t ) { std::stringstream ss; return (ss << t) ? ss.str() : "??"; }
     public:
         check( const char *const text, const char *const file, int line, bool result )
         :   xpr(4), ok(result)
@@ -82,13 +73,3 @@ namespace assertpp {
 
 #endif
 
-/* Public API */
-
-#include <cassert>
-
-#if !(defined(NDEBUG) || defined(_NDEBUG))
-#undef  assert
-#define assert(...) ( bool(__VA_ARGS__) ? \
-        ( assertpp::check(#__VA_ARGS__,__FILE__,__LINE__,1) < __VA_ARGS__ ) : \
-        ( assertpp::check(#__VA_ARGS__,__FILE__,__LINE__,0) < __VA_ARGS__ ) )
-#endif
