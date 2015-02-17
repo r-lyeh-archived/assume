@@ -1,4 +1,4 @@
-assert++
+assert++ <a href="https://travis-ci.org/r-lyeh/assert"><img src="https://api.travis-ci.org/r-lyeh/assert.svg?branch=master" align="right" /></a>
 ========
 
 - assert++ is an assert replacement written in C++03.
