@@ -1,28 +1,28 @@
-assert++ <a href="https://travis-ci.org/r-lyeh/assert"><img src="https://api.travis-ci.org/r-lyeh/assert.svg?branch=master" align="right" /></a>
-========
+Assume <a href="https://travis-ci.org/r-lyeh/assume"><img src="https://api.travis-ci.org/r-lyeh/assume.svg?branch=master" align="right" /></a>
+=======
 
-- assert++ is an assert replacement written in C++03.
-- assert++ is smart. LHS/RHS values are printed as long as they are `ostream` friendly.
-- assert++ is cross-platform. crash handler fallbacks to `assert()` symbol.
-- assert++ is header only.
-- assert++ is BOOST licensed.
+- Assume is a smarter assert replacement (C++03).
+- Assume is handy. LHS/RHS values are printed as long as they are `ostream` friendly.
+- Assume is cross-platform. Crash handler fallbacks to `assert()` symbol.
+- Assume is header only.
+- Assume is BOOST licensed.
 
-### sample
+## sample
 
 ```c++
-#include "assert++.hpp"
+#include "assume.hpp"
 
 int main() {
     int a = 1, b = 2;
 
-    assert( a < b );
-    assert( a > b );
+    assume( a < b );
+    assume( a > b );
 }
 ```
 
-### possible output
+## possible output
 
-```
+```c++
 #~/> g++ sample.cc && ./a.out
-<assert++> says: expression failed! (a > b) -> (1 > 2) -> (unexpected) at sample.cc:7
+<assume.hpp> says: expression failed! (a > b) -> (1 > 2) -> (unexpected) at sample.cc:7
 ```
