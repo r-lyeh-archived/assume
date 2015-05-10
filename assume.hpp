@@ -1,4 +1,4 @@
-/* Smarter assert replacement for LHS/RHS values. BOOST licensed.
+/* Smarter assert replacement for LHS/RHS values. zlib/libpng licensed.
  * - rlyeh ~~ listening to Tuber / Desert Overcrowded
  */
 

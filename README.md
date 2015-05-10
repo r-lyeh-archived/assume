@@ -5,7 +5,7 @@ Assume <a href="https://travis-ci.org/r-lyeh/assume"><img src="https://api.travi
 - Assume is handy. LHS/RHS values are printed as long as they are `ostream` friendly.
 - Assume is cross-platform. Crash handler fallbacks to `assert()` symbol.
 - Assume is header only.
-- Assume is BOOST licensed.
+- Assume is zlib/libpng licensed.
 
 ## sample
 
