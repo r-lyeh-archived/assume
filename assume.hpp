@@ -1,11 +1,12 @@
-/* Smarter assert replacement for LHS/RHS values. zlib/libpng licensed.
- * - rlyeh ~~ listening to Tuber / Desert Overcrowded
- */
+// Smarter assert replacement for LHS/RHS values. zlib/libpng licensed.
+// - rlyeh ~~ listening to Tuber / Desert Overcrowded 
 
 /* Private API */
 
 #ifndef ASSUME_HPP_HEADER
 #define ASSUME_HPP_HEADER
+
+#define ASSUME_VERSION "1.0.0" // (2015/08/07) Initial C++03 version
 
 #include <cassert>
 #include <cstdio>
@@ -44,19 +45,19 @@ namespace assume {
                 for(;;) {}
             };
         }
-#       define assume$impl(OP) \
+#       define assume$(OP) \
         template<typename T> check &operator OP( const T &rhs         ) { return xpr[3] += " "#OP" " + to_str(rhs), *this; } \
         template<unsigned N> check &operator OP( const char (&rhs)[N] ) { return xpr[3] += " "#OP" " + to_str(rhs), *this; }
         operator bool() {
             if( xpr.size() >= 3 && xpr[3].size() >= 6 ) {
-                char sign = xpr[3].at(xpr[3].size()/2+1);
+                char signR = xpr[3].at(2);
                 bool equal = xpr[3].substr( 4 + xpr[3].size()/2 ) == xpr[3].substr( 3, xpr[3].size()/2 - 3 );
-                ok = ( sign == '=' ? equal : ( sign == '!' ? !equal : ok ) );
-            } return ok;
+                ok = ( signR == '=' ? equal : ( signR == '!' ? !equal : ok ) );
+            }
+            return ok;
         }
-        assume$impl( <); assume$impl(<=); assume$impl( >); assume$impl(>=); assume$impl(!=); assume$impl(==); assume$impl(^=);
-        assume$impl(&&); assume$impl(&=); assume$impl(& ); assume$impl(||); assume$impl(|=); assume$impl(| ); assume$impl(^ );
-#       undef assume$impl
+        assume$(<) assume$(<=) assume$(>) assume$(>=) assume$(!=) assume$(==) assume$(&&) assume$(||)
+#       undef assume$
     };
 }
 
@@ -71,7 +72,7 @@ namespace assume {
 #endif
 
 #if !(defined(NDEBUG) || defined(_NDEBUG))
-#define assume(...) ( bool(__VA_ARGS__) ? \
+#define assume(...) ( !!(__VA_ARGS__) ? \
         ( assume::check(#__VA_ARGS__,__FILE__,__LINE__,1) < __VA_ARGS__ ) : \
         ( assume::check(#__VA_ARGS__,__FILE__,__LINE__,0) < __VA_ARGS__ ) )
 #else

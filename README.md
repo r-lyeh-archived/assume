@@ -7,7 +7,7 @@ Assume <a href="https://travis-ci.org/r-lyeh/assume"><img src="https://api.travi
 - Assume is header only.
 - Assume is zlib/libpng licensed.
 
-## sample
+## Sample
 
 ```c++
 #include "assume.hpp"
@@ -20,9 +20,14 @@ int main() {
 }
 ```
 
-## possible output
+## Showcase
 
 ```c++
 #~/> g++ sample.cc && ./a.out
 <assume.hpp> says: expression failed! (a > b) -> (1 > 2) -> (unexpected) at sample.cc:7
 ```
+
+## Changelog
+
+- v1.0.0 (2015/08/07)
+  - Initial C++03 version
