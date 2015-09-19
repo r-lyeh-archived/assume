@@ -6,7 +6,8 @@
 #ifndef ASSUME_HPP_HEADER
 #define ASSUME_HPP_HEADER
 
-#define ASSUME_VERSION "1.0.0" // (2015/08/07) Initial C++03 version
+#define ASSUME_VERSION "1.0.1" /* (2015/09/19) Force flushed pipes
+#define ASSUME_VERSION "1.0.0" // (2015/08/07) Initial C++03 version */
 
 #include <cassert>
 #include <cstdio>
@@ -36,10 +37,9 @@ namespace assume {
                 xpr[1].resize( (xpr[1] != xpr[2]) * xpr[1].size() );
                 std::string buf;
                 buf = "<assume.hpp> says: expression failed! (" + xpr[1] + ") -> (" + xpr[2] + ") -> (unexpected) at " + xpr[0] + "\n";
-                fprintf(stderr, "%s", buf.c_str() );
+                fprintf(stdout, "%s", buf.c_str() ); fflush( stdout ); fclose( stdout );
+                fprintf(stderr, "%s", buf.c_str() ); fflush( stderr ); fclose( stderr );
                 // assert fallback here
-                fclose( stderr );
-                fclose( stdout );
                 assert( !"<assume.hpp> says: expression failed!" );
                 // user defined fallbacks here
                 for(;;) {}

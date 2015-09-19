@@ -29,5 +29,7 @@ int main() {
 
 ## Changelog
 
+- v1.0.1 (2015/09/19)
+  - Force flushed pipes
 - v1.0.0 (2015/08/07)
   - Initial C++03 version
